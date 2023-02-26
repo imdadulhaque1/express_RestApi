@@ -67,9 +67,11 @@ const modifySingleContactController = (req, res, next) => {
   };
   ContactModel.findByIdAndUpdate(id, { $set: updatedContacts })
     .then((data) => {
-      res.json({
-        message: `${id} is Successfully modified!`,
-        contact: data,
+      ContactModel.findById(data._id).then((newContact) => {
+        res.json({
+          message: `${id} is Successfully modified!`,
+          contact: newContact,
+        });
       });
     })
     .catch((err) => {
