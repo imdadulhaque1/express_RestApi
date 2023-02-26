@@ -29,7 +29,7 @@ const ConatctSchema = new Schema({
       validator: (v) => {
         return valid.isEmail(v);
       },
-      message: `${v} is not an valid email!!!`,
+      message: `{VALUE} is not an valid email!!!`,
     },
   },
 });
