@@ -27,8 +27,50 @@ const registerController = (req, res, next) => {
       });
   });
 };
-const loginController = (req, res, next) => {};
-const getAllUser = (req, res, next) => {};
+
+const loginController = (req, res, next) => {
+  let email = req.body.email;
+  let password = req.body.password;
+
+  UserModel.findOne({ email }).then((userFound) => {
+    if (userFound) {
+      bcrypt.compare(password, userFound.password, (err, userResult) => {
+        if (err) {
+          res.json({
+            message: "User Login Error!!!",
+          });
+        }
+        if (userResult) {
+          res.json({
+            message: "User Successfully Login!!!",
+          });
+        } else {
+          res.json({
+            message: "Login Failed, Password Doesn't Match!!!",
+          });
+        }
+      });
+    } else {
+      res.json({
+        message: "User Not Found!!! Please create an account, first.",
+      });
+    }
+  });
+};
+
+const getAllUser = (req, res, next) => {
+  UserModel.find()
+    .then((users) => {
+      res.json({
+        users,
+      });
+    })
+    .catch((error) => {
+      res.json({
+        error,
+      });
+    });
+};
 
 module.exports = {
   registerController,
