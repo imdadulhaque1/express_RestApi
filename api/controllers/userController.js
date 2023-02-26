@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
 
 const registerController = (req, res, next) => {
@@ -41,8 +42,14 @@ const loginController = (req, res, next) => {
           });
         }
         if (userResult) {
+          let token = jwt.sign(
+            { email: userFound.email, _id: userFound._id },
+            "SECRET",
+            { expiresIn: "2h" }
+          );
           res.json({
             message: "User Successfully Login!!!",
+            token,
           });
         } else {
           res.json({
