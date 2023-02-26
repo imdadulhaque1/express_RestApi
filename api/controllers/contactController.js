@@ -17,6 +17,24 @@ const getAllContactControllers = (req, res, next) => {
     });
 };
 
+const getSingleDataContactController = (req, res, next) => {
+  let id = req.params.id;
+
+  ContactModel.findById(id)
+    .then((data) => {
+      res.status(200).json({
+        contact: data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Error Occured!!!",
+        error: err,
+      });
+    });
+};
+
 const postNewContactController = (req, res, next) => {
   const contact = new ContactModel({
     name: req.body.name,
@@ -42,5 +60,6 @@ const postNewContactController = (req, res, next) => {
 
 module.exports = {
   getAllContactControllers,
+  getSingleDataContactController,
   postNewContactController,
 };
