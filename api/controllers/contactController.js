@@ -57,9 +57,52 @@ const postNewContactController = (req, res, next) => {
       });
     });
 };
+const modifySingleContactController = (req, res, next) => {
+  const id = req.params.id;
+
+  let updatedContacts = {
+    name: req.body.name,
+    phone: req.body.phone,
+    email: req.body.email,
+  };
+  ContactModel.findByIdAndUpdate(id, { $set: updatedContacts })
+    .then((data) => {
+      res.json({
+        message: `${id} is Successfully modified!`,
+        contact: data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Modifying Related Error Occured!!!",
+        error: err,
+      });
+    });
+};
+
+const deleteSingleContactController = (req, res, next) => {
+  const id = req.params.id;
+  ContactModel.findByIdAndRemove(id)
+    .then((data) => {
+      res.json({
+        message: `${id} Contact is Deleted!`,
+        data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Deletion Related Error Occured!!!",
+        error: err,
+      });
+    });
+};
 
 module.exports = {
   getAllContactControllers,
   getSingleDataContactController,
   postNewContactController,
+  modifySingleContactController,
+  deleteSingleContactController,
 };
