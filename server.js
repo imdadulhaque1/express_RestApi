@@ -15,6 +15,7 @@ db.once("open", () => {
 });
 
 const contactRoutes = require("./api/routes/contactRoutes");
+const userRoutes = require("./api/routes/userRoutes");
 
 const app = express();
 // app.use(morgan("dev"));
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/contacts/", contactRoutes);
+app.use("/api/users/", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on PORT  ${PORT}`);
